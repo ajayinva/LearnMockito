@@ -17,7 +17,7 @@ import com.aces.learn.mockito.repository.UserRepository;
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceTest {	
 	@Mock
-	private UserRepository userRepository;
+	private UserRepository mockUserRepository;
 	
 	@Captor
 	private ArgumentCaptor<String> stringArgumentCaptor;
@@ -37,14 +37,14 @@ public class UserServiceTest {
 
 	@Test
 	public void getUser_happy_path() {	
-		when(userRepository.get(Mockito.anyInt())).thenReturn(DUMMY_NAME);
+		when(mockUserRepository.get(Mockito.anyInt())).thenReturn(DUMMY_NAME);
 		String actualValue = userService.getUser(1);		
 		assertThat(actualValue, is("Ajay0-Ajay1"));
 	}
 	
 	@Test
 	public void getUser_no_user_in_db() {	
-		when(userRepository.get(Mockito.anyInt())).thenReturn(null);
+		when(mockUserRepository.get(Mockito.anyInt())).thenReturn(null);
 		String actualValue = userService.getUser(1);		
 		assertThat(actualValue, nullValue());
 	}
@@ -67,8 +67,8 @@ public class UserServiceTest {
 	@Test
 	public void addUser_happy_path() {	
 		userService.addUser(1, DUMMY_NAME);		
-		verify(userRepository).add(Mockito.anyInt(), Mockito.anyString());
-		verify(userRepository).add(integerArgumentCaptor.capture(),stringArgumentCaptor.capture());
+		verify(mockUserRepository).add(Mockito.anyInt(), Mockito.anyString());
+		verify(mockUserRepository).add(integerArgumentCaptor.capture(),stringArgumentCaptor.capture());
 		assertThat(integerArgumentCaptor.getValue(), is(2));
 		assertThat(stringArgumentCaptor.getValue(), is(DUMMY_NAME+DUMMY_NAME));
 	}
