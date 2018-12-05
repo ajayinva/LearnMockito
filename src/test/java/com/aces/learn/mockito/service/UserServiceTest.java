@@ -67,7 +67,11 @@ public class UserServiceTest {
 	@Test
 	public void addUser_happy_path() {	
 		userService.addUser(1, DUMMY_NAME);		
+		//Verify that the method is called once with an int and a string 
+		//This is not required, since it will be tested anyway when we capture the arguments
 		verify(mockUserRepository).add(Mockito.anyInt(), Mockito.anyString());
+		
+		//Verify that the method is called once with an int and a string and capture the parameters 
 		verify(mockUserRepository).add(integerArgumentCaptor.capture(),stringArgumentCaptor.capture());
 		assertThat(integerArgumentCaptor.getValue(), is(2));
 		assertThat(stringArgumentCaptor.getValue(), is(DUMMY_NAME+DUMMY_NAME));
